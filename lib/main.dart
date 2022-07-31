@@ -26,7 +26,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double bmi = 0.0;
+  int bmi = 0;
   String message = "";
   TextEditingController height = TextEditingController();
   TextEditingController weight = TextEditingController();
@@ -81,20 +81,49 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: 20,
                       ),
                       ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            double heightSquare = double.parse(height.text) *
+                                double.parse(height.text);
+                            bmi =
+                                (int.parse(weight.text) / heightSquare).round();
+                            print(bmi);
+
+                            if (bmi <= 18) {
+                              setState(() {
+                                message = "UnderWeight!!";
+                              });
+                            } else if (bmi <= 25) {
+                              setState(() {
+                                message = "Normal!!";
+                              });
+                            } else if (bmi <= 30) {
+                              setState(() {
+                                message = "OverWeight!!";
+                              });
+                            } else if (bmi <= 35) {
+                              setState(() {
+                                message = "OBESE!!";
+                              });
+                            } else {
+                              setState(() {
+                                message = "Extermely OBESE!!";
+                              });
+                            }
+                          },
                           icon: Icon(Icons.call_made_outlined),
                           label: Text("Submit"))
                     ],
                   ),
                 ),
               ),
-              Text(
-                message,
-                style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 20,
-                    fontStyle: FontStyle.italic),
-              )
+              if (bmi != 0)
+                Text(
+                  "Your BMI is : $bmi and You are $message",
+                  style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic),
+                )
             ],
           ),
         )),
